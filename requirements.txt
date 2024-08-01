@@ -2,3 +2,4 @@ python-telegram-bot
 pandas
 crewai
 fiverr_api
+asyncio
