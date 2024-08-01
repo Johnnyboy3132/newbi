@@ -208,7 +208,7 @@ async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     await update.message.reply_text("Conversation cancelled.")
     return ConversationHandler.END
 
-async def keep_alive(context: ContextTypes.DEFAULT_TYPE) -> None:
+async def keep_alive(context: CallbackContext) -> None:
     logger.info('Keeping the bot alive...')
 
 def main() -> None:
@@ -217,7 +217,7 @@ def main() -> None:
     # Add a job to keep the bot alive
     job_queue = application.job_queue
     job_queue.run_repeating(keep_alive, interval=300, first=10)  # Keep alive every 5 minutes
-
+    
     conv_handler = ConversationHandler(
         entry_points=[CommandHandler('start', start)],
         states={
