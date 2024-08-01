@@ -11,7 +11,8 @@ from crewai.process import Process
 from crewai.crew import Crew
 
 from fiverr_api import session
-import json
+import json 
+import asyncio
 
 os.environ["OPENAI_API_BASE"] = 'https://api.groq.com/openai/v1'
 os.environ["OPENAI_MODEL_NAME"] ='llama-3.1-8b-instant'  # Adjust based on available model
