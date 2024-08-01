@@ -1,6 +1,6 @@
 import logging
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes, ConversationHandler, CallbackQueryHandler, CallbackContext 
+from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes, ConversationHandler, CallbackQueryHandler 
 from telegram.constants import ParseMode
 import pandas as pd
 import os
@@ -208,9 +208,10 @@ async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     await update.message.reply_text("Conversation cancelled.")
     return ConversationHandler.END
 
-# Define a keep-alive function
-async def keep_alive(context: ContextTypes.DEFAULT_TYPE) -> None:
-    logger.info('Keeping the bot alive...')
+async def keep_alive() -> None:
+    while True:
+        logger.info('Keeping the bot alive...')
+        await asyncio.sleep(300)  # Sleep for 5 minutes
 
 def main() -> None:
     """Run the bot."""
@@ -230,7 +231,10 @@ def main() -> None:
     )
 
     application.add_handler(conv_handler)
-    application.job_queue.run_repeating(keep_alive, interval=300, first=10)  # Keep alive every 5 minutes
+    
+    # Start the keep-alive task
+    asyncio.create_task(keep_alive())
+    
     # Start the Bot
     application.run_polling()
 
